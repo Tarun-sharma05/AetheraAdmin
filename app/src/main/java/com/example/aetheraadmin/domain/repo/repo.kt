@@ -1,15 +1,17 @@
 package com.example.aetheraadmin.domain.repo
 
 import com.example.aetheraadmin.common.ResultState
+import com.example.aetheraadmin.domain.models.ProductsModels
 import com.example.aetheraadmin.domain.models.category
-import com.example.aetheraadmin.domain.models.products
 import kotlinx.coroutines.flow.Flow
 
 interface repo {
 
-    fun addCategory(category: category): Flow<ResultState<String>>
+    suspend fun addCategory(category: category): Flow<ResultState<String>>
 
-    fun getCategory(): Flow<ResultState<List<category>>>
+    suspend fun getCategories(): Flow<ResultState<List<category>>>
 
-    fun addProduct(products: products): Flow<ResultState<String>>
+    suspend fun addProduct(productsModels: ProductsModels): Flow<ResultState<String>>
+
+    suspend fun uplaodImage(image: String): Flow<ResultState<String>>
 }

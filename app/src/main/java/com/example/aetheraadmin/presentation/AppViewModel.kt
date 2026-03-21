@@ -1,4 +1,4 @@
-package com.example.aetheraadmin.presentation.Screen
+package com.example.aetheraadmin.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

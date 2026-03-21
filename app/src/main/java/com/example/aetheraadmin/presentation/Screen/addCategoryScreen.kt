@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aetheraadmin.domain.models.category
+import com.example.aetheraadmin.presentation.AppViewModel
 
 @Composable
 fun addCategoryScreen(viewModel: AppViewModel = hiltViewModel()) {

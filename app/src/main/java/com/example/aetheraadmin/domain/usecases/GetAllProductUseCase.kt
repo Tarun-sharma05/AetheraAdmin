@@ -1,4 +1,6 @@
 package com.example.aetheraadmin.domain.usecases
 
-class GetAllProductUseCase {
+import javax.inject.Inject
+
+class GetAllProductUseCase @Inject constructor() {
 }

@@ -1,7 +1,7 @@
 package com.example.aetheraadmin.domain.models
 
 
-data class products (
+data class ProductsModels (
   var name: String = "",
   var description: String = "",
   var price: Double = 0.0,
