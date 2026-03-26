@@ -15,4 +15,6 @@ object dataModels {
     fun provideFireStoreInstance(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
+
+
 }
