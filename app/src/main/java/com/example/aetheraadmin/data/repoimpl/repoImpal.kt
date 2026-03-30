@@ -80,7 +80,7 @@ class repoImpal @Inject constructor(
                     trySend(ResultState.Success(it.toString()))
                 }
                 if (it.error!= null){
-                    trySend(ResultState.Error(it.error.toString()))
+                    trySend(ResultState.Error(it.error!!.message.toString()))
                 }
 
             }

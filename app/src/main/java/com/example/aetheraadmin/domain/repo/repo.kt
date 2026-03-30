@@ -1,5 +1,6 @@
 package com.example.aetheraadmin.domain.repo
 
+import android.net.Uri
 import com.example.aetheraadmin.common.ResultState
 import com.example.aetheraadmin.domain.models.ProductsModels
 import com.example.aetheraadmin.domain.models.category
@@ -13,5 +14,5 @@ interface repo {
 
     suspend fun addProduct(productsModels: ProductsModels): Flow<ResultState<String>>
 
-    suspend fun uplaodImage(image: String): Flow<ResultState<String>>
+    suspend fun uplaodImage(image: Uri): Flow<ResultState<String>>
 }

@@ -1,5 +1,6 @@
 package com.example.aetheraadmin.presentation
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aetheraadmin.common.ResultState
@@ -23,12 +24,48 @@ class AppViewModel @Inject constructor(
     private val GetCategoryInLimit: GetCategoryInLimitUseCase,
     private val GetProductInLimit: GetProductInLimitUseCase,
     private val GetAllProduct: GetAllProductUseCase
-
-
     ) : ViewModel(){
 
     private val _addCategoryState = MutableStateFlow(AddCategoryState())
     val addCategoryState = _addCategoryState.asStateFlow()
+
+    private val _getCategoryState = MutableStateFlow(GetCategoryState())
+    val getCategoryState = _getCategoryState.asStateFlow()
+
+    private val _addProductState = MutableStateFlow(AddProductState())
+    val addProductState = _addProductState.asStateFlow()
+
+    private val _getProductState = MutableStateFlow(GetProductState())
+    val getProductState = _getProductState.asStateFlow()
+
+    private val _uploadProductImageState = MutableStateFlow(UploadProductImageState())
+    val uploadProductImageState = _uploadProductImageState.asStateFlow()
+
+
+    fun uploadProductImage(imageUri: Uri){
+        viewModelScope.launch {
+           repo.uplaodImage(image = imageUri).collectLatest {
+               when(it){
+                   is ResultState.Loading -> {
+                       _uploadProductImageState.value = uploadProductImageState.value.copy(isLoading = true)
+                   }
+
+                   is ResultState.Success -> {
+                       _uploadProductImageState.value = uploadProductImageState.value.copy(
+                           success = it.data
+                       )
+                   }
+
+                   is ResultState.Error -> {
+                       _uploadProductImageState.value = uploadProductImageState.value.copy(
+                           error = it.error
+                       )
+                   }
+               }
+           }
+        }
+
+    }
 
     fun addCategory(category: category){
         viewModelScope.launch {
@@ -40,14 +77,12 @@ class AppViewModel @Inject constructor(
 
                     is ResultState.Success ->{
                         _addCategoryState.value = addCategoryState.value.copy(
-//                            isLoading = false,
                             success = it.data
                         )
                     }
 
                     is ResultState.Error -> {
                         _addCategoryState.value = addCategoryState.value.copy(
-//                            isLoading = false,
                             error = it.error
                         )
                     }
@@ -56,9 +91,55 @@ class AppViewModel @Inject constructor(
     }
     }
 
+
+    fun getCategory(){
+        viewModelScope.launch {
+            repo.getCategories().collectLatest{
+                when(it){
+                    is ResultState.Loading -> {
+                        _getCategoryState.value = GetCategoryState(isLoading = true)
+                    }
+
+                    is ResultState.Success ->{
+                        _getCategoryState.value = GetCategoryState(success = it.data)
+                    }
+
+                    is ResultState.Error -> {
+                        _getCategoryState.value = GetCategoryState(error = it.error)
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 data class AddCategoryState(
+    val isLoading: Boolean = false,
+    val error : String = "",
+    val success : String = ""
+)
+
+data class GetCategoryState(
+    val isLoading: Boolean = false,
+    val error : String = "",
+    val success : List<category> = emptyList()
+)
+
+
+data class AddProductState(
+    val isLoading: Boolean = false,
+    val error : String = "",
+    val success : String = ""
+)
+
+
+data class GetProductState(
+    val isLoading: Boolean = false,
+    val error : String = "",
+    val success : String = ""
+)
+data class UploadProductImageState(
     val isLoading: Boolean = false,
     val error : String = "",
     val success : String = ""
