@@ -112,6 +112,11 @@ class AppViewModel @Inject constructor(
         }
     }
 
+    fun resetAddProductState(){
+        _addProductState.value = AddProductState()
+    }
+
+
 }
 
 data class AddCategoryState(
