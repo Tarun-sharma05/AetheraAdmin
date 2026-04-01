@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -73,7 +74,7 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
     var imageUrl by remember { mutableStateOf("") }
 
 
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) {
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { it ->
         if(it != null) {
             viewModel.uploadProductImage(it)
             imageUri = it
@@ -150,15 +151,23 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
                    horizontalAlignment = Alignment.CenterHorizontally,
                    verticalArrangement = Arrangement.Center,
                    modifier = Modifier.fillMaxSize().clickable{
+                       launcher.launch(
                           PickVisualMediaRequest(
                               mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
                           )
+                       )
                    }
                ){
                    Icon(
                        imageVector = Icons.Default.Add,
                        contentDescription = null,
-                       modifier = Modifier.clickable{})
+                       modifier = Modifier.clickable{
+                           launcher.launch(
+                               PickVisualMediaRequest(
+                                   mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                               )
+                           )
+                       })
                    Text(text = "Add Image")
                }
             }
@@ -176,4 +185,10 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
 
     }
 
+}
+
+@Preview
+@Composable
+fun AddProductScreenPreview() {
+    AddProductScreen()
 }

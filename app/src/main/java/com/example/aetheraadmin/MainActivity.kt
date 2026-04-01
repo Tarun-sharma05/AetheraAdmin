@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.aetheraadmin.presentation.Screen.AddProductScreen
 import com.example.aetheraadmin.presentation.Screen.addCategoryScreen
 import com.example.aetheraadmin.ui.theme.AetheraAdminTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AetheraAdminTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    addCategoryScreen()
+                    AddProductScreen()
                 }
             }
         }
