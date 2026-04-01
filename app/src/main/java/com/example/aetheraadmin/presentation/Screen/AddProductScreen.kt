@@ -271,7 +271,7 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
     }
 
 }
-
+ sdfsdafds
 
 @Composable
 fun AddProductScreenContent() {
