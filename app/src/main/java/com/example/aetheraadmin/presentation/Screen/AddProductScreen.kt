@@ -2,28 +2,37 @@ package com.example.aetheraadmin.presentation.Screen
 
 import android.R
 import android.net.Uri
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,17 +46,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.aetheraadmin.presentation.AddProductState
 import com.example.aetheraadmin.presentation.AppViewModel
+import java.util.Locale
 import kotlin.contracts.contract
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hiltViewModel()) {
+fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
 
     LaunchedEffect(key1 = true) {
         viewModel.getCategory()
@@ -69,7 +81,6 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
     var availableUnits by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     var createdBy by remember { mutableStateOf("") }
-
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var imageUrl by remember { mutableStateOf("") }
 
@@ -122,12 +133,20 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
 
     ) {
+        Text(
+            text = "Add Product",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
 
         if (imageUri != null) {
             AsyncImage(
@@ -150,13 +169,15 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
                Column (
                    horizontalAlignment = Alignment.CenterHorizontally,
                    verticalArrangement = Arrangement.Center,
-                   modifier = Modifier.fillMaxSize().clickable{
-                       launcher.launch(
-                          PickVisualMediaRequest(
-                              mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-                          )
-                       )
-                   }
+                   modifier = Modifier
+                       .fillMaxSize()
+                       .clickable {
+                           launcher.launch(
+                               PickVisualMediaRequest(
+                                   mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                               )
+                           )
+                       }
                ){
                    Icon(
                        imageVector = Icons.Default.Add,
@@ -173,21 +194,95 @@ fun AddProductScreen(modifier: Modifier = Modifier, viewModel: AppViewModel = hi
             }
 
         }
+        Spacer(modifier = Modifier.height(4.dp))
 
-        Text(
-            text = "Add Product",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.align(Alignment.Start)
+
+        OutlinedTextField(
+            value = name,
+            onValueChange = {name = it },
+            label = { Text(text = "Product Name") },
+            modifier =   Modifier.weight(1f)
+            )
+        Spacer(modifier = Modifier.height(4.dp))
+
+
+        Row(
+            modifier = Modifier.height(intrinsicSize = IntrinsicSize.Min)
+        ) {
+            OutlinedTextField(
+                value = price,
+                onValueChange = {price = it },
+                label = { Text(text = "Price") },
+                modifier =   Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+
+            OutlinedTextField(
+                value = finalPrice,
+                onValueChange = {finalPrice = it},
+                label = {Text(text = "Final Price")},
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedTextField(
+            value = description,
+            onValueChange = {description = it},
+            label = {Text(text = "Description")},
+                    modifier =   Modifier.weight(1f)
         )
+        Spacer(modifier = Modifier.height(4.dp))
 
+        OutlinedTextField(
+            value = category,
+            onValueChange = {category = it},
+            label = {Text(text = "Final Price")},
+            trailingIcon = {
+                Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.clickable {
+                    expanded = !expanded
+                })
+            },
+            modifier =   Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
 
+        OutlinedTextField(
+            value = availableUnits,
+            onValueChange = {availableUnits = it},
+            label = {Text(text = "Available Units")},
+            modifier =   Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
 
+        OutlinedTextField(
+            value = createdBy,
+            onValueChange = {createdBy = it},
+            label = {Text(text = "Created By")},
+            modifier =   Modifier.weight(1f)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Button(modifier = Modifier.fillMaxWidth(), onClick ={
+
+        }){
+            Text(text = "Add Product")
+        }
 
     }
 
 }
 
-@Preview
+
+@Composable
+fun AddProductScreenContent() {
+
+}
+
+
+
+
+
+@Preview(showBackground = true)
 @Composable
 fun AddProductScreenPreview() {
     AddProductScreen()
