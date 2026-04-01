@@ -133,7 +133,6 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -201,19 +200,19 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
             value = name,
             onValueChange = {name = it },
             label = { Text(text = "Product Name") },
-            modifier =   Modifier.weight(1f)
+            modifier =   Modifier.fillMaxWidth()
             )
         Spacer(modifier = Modifier.height(4.dp))
 
 
         Row(
-            modifier = Modifier.height(intrinsicSize = IntrinsicSize.Min)
+            modifier = Modifier.width(intrinsicSize = IntrinsicSize.Min)
         ) {
             OutlinedTextField(
                 value = price,
                 onValueChange = {price = it },
                 label = { Text(text = "Price") },
-                modifier =   Modifier.weight(1f)
+                modifier =  Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(4.dp))
 
@@ -230,20 +229,20 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
             value = description,
             onValueChange = {description = it},
             label = {Text(text = "Description")},
-                    modifier =   Modifier.weight(1f)
+                    modifier =   Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
             value = category,
             onValueChange = {category = it},
-            label = {Text(text = "Final Price")},
+            label = {Text(text = "Category")},
             trailingIcon = {
                 Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.clickable {
                     expanded = !expanded
                 })
             },
-            modifier =   Modifier.weight(1f)
+            modifier =   Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(4.dp))
 
@@ -251,7 +250,7 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
             value = availableUnits,
             onValueChange = {availableUnits = it},
             label = {Text(text = "Available Units")},
-            modifier =   Modifier.weight(1f)
+            modifier =   Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(4.dp))
 
@@ -259,7 +258,7 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
             value = createdBy,
             onValueChange = {createdBy = it},
             label = {Text(text = "Created By")},
-            modifier =   Modifier.weight(1f)
+            modifier =   Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(4.dp))
         Button(modifier = Modifier.fillMaxWidth(), onClick ={
@@ -271,7 +270,7 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
     }
 
 }
- 
+
 
 @Composable
 fun AddProductScreenContent() {
