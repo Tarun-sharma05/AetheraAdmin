@@ -68,7 +68,7 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
     val uploadProductImage = viewModel.uploadProductImageState.collectAsState()
 
 
-    val getCategoryState = viewModel.getCategoryState.collectAsState()
+    val GetCategoryState = viewModel.getCategoryState.collectAsState()
     val AddProductState = viewModel.addProductState.collectAsState()
 
     val context = LocalContext.current
@@ -128,6 +128,9 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
         }
 
 
+        GetCategoryState.value.isLoading ->{
+
+        }
     }
 
     Column(
@@ -239,7 +242,10 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
             label = {Text(text = "Category")},
             trailingIcon = {
                 Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null, modifier = Modifier.clickable {
-                    expanded = !expanded
+                    val data = GetCategoryState.value.success?: emptyList()
+                    data.first(
+
+                    )
                 })
             },
             modifier =   Modifier.fillMaxWidth()
