@@ -7,8 +7,8 @@ data class ProductsModels (
   var price: Double = 0.0,
   var category: String = "",
   var finalPrice: Double = 0.0,
-  var imageUri: String = "",
+  var imageUri: String? = null,
   var date: Long = System.currentTimeMillis(),
   var availableUnits: Int = 0,
   var createdBy: String = ""
-    )
+)

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aetheraadmin.common.ResultState
+import com.example.aetheraadmin.domain.models.ProductsModels
 import com.example.aetheraadmin.domain.models.category
 import com.example.aetheraadmin.domain.repo.repo
 import com.example.aetheraadmin.domain.usecases.GetAllCategoryUseCase
@@ -42,22 +43,50 @@ class AppViewModel @Inject constructor(
     val uploadProductImageState = _uploadProductImageState.asStateFlow()
 
 
+    fun addProduct(product: ProductsModels){
+        viewModelScope.launch {
+            repo.addProduct(product).collectLatest{
+                when(it){
+                    is ResultState.Loading -> {
+                        _addProductState.value = addProductState.value.copy(isLoading = true)
+                    }
+
+                    is ResultState.Success ->{
+                        _addProductState.value = addProductState.value.copy(
+                            isLoading = false,
+                            success = it.data
+                        )
+                    }
+
+                    is ResultState.Error -> {
+                        _addProductState.value = addProductState.value.copy(
+                            isLoading = false,
+                            error = it.error
+                        )
+                    }
+                }
+            }
+        }
+
+    }
     fun uploadProductImage(imageUri: Uri){
         viewModelScope.launch {
            repo.uplaodImage(image = imageUri).collectLatest {
                when(it){
                    is ResultState.Loading -> {
-                       _uploadProductImageState.value = uploadProductImageState.value.copy(isLoading = true)
+                       _uploadProductImageState.value = UploadProductImageState(isLoading = true)
                    }
 
                    is ResultState.Success -> {
-                       _uploadProductImageState.value = uploadProductImageState.value.copy(
+                       _uploadProductImageState.value = UploadProductImageState(
+                           isLoading = false,
                            success = it.data
                        )
                    }
 
                    is ResultState.Error -> {
-                       _uploadProductImageState.value = uploadProductImageState.value.copy(
+                       _uploadProductImageState.value = UploadProductImageState(
+                           isLoading = false,
                            error = it.error
                        )
                    }
@@ -77,12 +106,14 @@ class AppViewModel @Inject constructor(
 
                     is ResultState.Success ->{
                         _addCategoryState.value = addCategoryState.value.copy(
+                            isLoading = false,
                             success = it.data
                         )
                     }
 
                     is ResultState.Error -> {
                         _addCategoryState.value = addCategoryState.value.copy(
+                            isLoading = false,
                             error = it.error
                         )
                     }
