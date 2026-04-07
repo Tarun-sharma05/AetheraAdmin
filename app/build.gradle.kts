@@ -90,4 +90,8 @@ dependencies {
 //    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
     implementation("io.coil-kt:coil-compose:2.7.0")
 
+    // build.gradle.kts (app)
+    implementation("androidx.navigation3:navigation3-ui:1.0.1")
+    implementation("androidx.navigation3:navigation3-runtime:1.0.1")
+
 }
