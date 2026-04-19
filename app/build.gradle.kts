@@ -68,7 +68,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     //NAVIGATION
-    implementation("androidx.navigation:navigation-compose:2.9.6")
+    implementation("androidx.navigation:navigation-compose:2.9.7")
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
 
@@ -91,7 +91,8 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.7.0")
 
     // build.gradle.kts (app)
-    implementation("androidx.navigation3:navigation3-ui:1.0.1")
-    implementation("androidx.navigation3:navigation3-runtime:1.0.1")
+    implementation("androidx.navigation3:navigation3-ui:1.1.0")
+    implementation("androidx.navigation3:navigation3-runtime:1.1.0")
+    implementation("androidx.compose.material3:material3:1.4.0")
 
 }
