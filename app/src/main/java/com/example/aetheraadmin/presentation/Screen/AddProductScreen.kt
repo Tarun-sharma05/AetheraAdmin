@@ -28,7 +28,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -38,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -75,7 +78,11 @@ import com.example.aetheraadmin.presentation.AppViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
+fun AddProductScreen(
+    viewModel: AppViewModel = hiltViewModel(),
+    innerPadding: PaddingValues = PaddingValues(),
+    onBack: () -> Unit = {}
+) {
     val scrollBehaviour = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     LaunchedEffect(key1 = true) {
         viewModel.getCategory()
@@ -227,16 +234,23 @@ fun AddProductScreen( viewModel: AppViewModel = hiltViewModel()) {
                         )
                     }
                 },
-
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
                 scrollBehavior = scrollBehaviour
             )
         }
-    ) { innerPadding ->
+    ) { scaffoldPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)                // ← respects TopAppBar height
+                .padding(scaffoldPadding)             // ← respects TopAppBar height
                 .padding(horizontal = 16.dp),
         ) {
 //            Text(
