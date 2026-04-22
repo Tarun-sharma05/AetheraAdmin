@@ -143,6 +143,24 @@ class AppViewModel @Inject constructor(
         }
     }
 
+    fun getProducts(){
+        viewModelScope.launch {
+            repo.getProduct().collectLatest {
+                when(it){
+                    is ResultState.Loading -> {
+                        _getProductState.value = GetProductState(isLoading = true)
+                    }
+                    is ResultState.Success -> {
+                        _getProductState.value = GetProductState(success = it.data)
+                    }
+                    is ResultState.Error -> {
+                        _getProductState.value = GetProductState(error = it.error)
+                    }
+                }
+            }
+        }
+    }
+
     fun resetAddProductState(){
         _addProductState.value = AddProductState()
     }
@@ -173,7 +191,7 @@ data class AddProductState(
 data class GetProductState(
     val isLoading: Boolean = false,
     val error : String = "",
-    val success : String = ""
+    val success : List<ProductsModels> = emptyList()
 )
 data class UploadProductImageState(
     val isLoading: Boolean = false,
