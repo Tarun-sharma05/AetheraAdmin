@@ -15,3 +15,6 @@
 local.properties
 google-services.json
 *error.txt
+
+# Screenshots taken locally
+Screenshot*.png
