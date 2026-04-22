@@ -13,6 +13,7 @@ interface repo {
     suspend fun getCategories(): Flow<ResultState<List<category>>>
 
     suspend fun addProduct(productsModels: ProductsModels): Flow<ResultState<String>>
+    suspend fun getProduct(): Flow<ResultState<List<ProductsModels>>>
 
     suspend fun uplaodImage(image: Uri): Flow<ResultState<String>>
 }

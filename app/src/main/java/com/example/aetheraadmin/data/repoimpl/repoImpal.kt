@@ -1,9 +1,12 @@
 package com.example.aetheraadmin.data.repoimpl
 
 import android.net.Uri
+import android.os.Build.PRODUCT
 import androidx.compose.ui.layout.RectRulers
 import com.example.aetheraadmin.common.CATEGORY
+import com.example.aetheraadmin.common.PRODUCTS
 import com.example.aetheraadmin.common.ResultState
+import com.example.aetheraadmin.common.ResultState.Success
 import com.example.aetheraadmin.domain.models.category
 import com.example.aetheraadmin.domain.models.ProductsModels
 import com.example.aetheraadmin.domain.repo.repo
@@ -25,7 +28,7 @@ class repoImpal @Inject constructor(
         trySend(ResultState.Loading)
 
         FirebaseFirestore.collection(CATEGORY).add(category).addOnSuccessListener {
-            trySend(ResultState.Success("Category Added Successfully"))
+            trySend(Success("Category Added Successfully"))
         }.addOnFailureListener {
              trySend(ResultState.Error(it.toString()))
         }
@@ -48,7 +51,7 @@ class repoImpal @Inject constructor(
                     val categories = querySnapshot.documents.mapNotNull { document ->
                         document.toObject(category::class.java)
                     }
-                    trySend(ResultState.Success(categories))
+                    trySend(Success(categories))
                 }
                 .addOnFailureListener { exception ->
                     trySend(ResultState.Error(exception.toString()))
@@ -60,8 +63,8 @@ class repoImpal @Inject constructor(
     override suspend fun addProduct(products: ProductsModels): Flow<ResultState<String>> = callbackFlow {
         trySend(ResultState.Loading)
 
-        FirebaseFirestore.collection("PRODUCTS").add(products).addOnSuccessListener {
-            trySend(ResultState.Success("Product Added Successfully"))
+        FirebaseFirestore.collection(PRODUCTS).add(products).addOnSuccessListener {
+            trySend(Success("Product Added Successfully"))
 
         }.addOnFailureListener {
             trySend(ResultState.Error(it.toString()))
@@ -71,13 +74,30 @@ class repoImpal @Inject constructor(
         }
     }
 
+    override suspend fun getProduct(): Flow<ResultState<List<ProductsModels>>> = callbackFlow{
+        trySend(ResultState.Loading)
+        FirebaseFirestore.collection(PRODUCTS)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+
+                val products = querySnapshot.documents.mapNotNull { document ->
+                    document.toObject(ProductsModels::class.java)
+                }
+                trySend(Success(products))
+            }
+            .addOnFailureListener { exception ->
+                trySend(ResultState.Error(exception.toString()))
+            }
+        awaitClose { close() }
+    }
+
     override suspend fun uplaodImage(image: Uri): Flow<ResultState<String>> = callbackFlow{
          trySend(ResultState.Loading)
 
         FirebaseStorage.reference.child("Products/${System.currentTimeMillis()}")
             .putFile(image ?: Uri.EMPTY).addOnSuccessListener {
                 it.storage.downloadUrl.addOnSuccessListener {
-                    trySend(ResultState.Success(it.toString()))
+                    trySend(Success(it.toString()))
                 }
                 if (it.error!= null){
                     trySend(ResultState.Error(it.error!!.message.toString()))
