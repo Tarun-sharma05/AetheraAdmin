@@ -90,9 +90,11 @@ dependencies {
 //    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
     implementation("io.coil-kt:coil-compose:2.7.0")
 
-    // build.gradle.kts (app)
+    // Navigation 3
     implementation("androidx.navigation3:navigation3-ui:1.1.0")
     implementation("androidx.navigation3:navigation3-runtime:1.1.0")
+    // Required for rememberViewModelStoreNavEntryDecorator (ViewModel scoping per nav entry)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.9.0")
     implementation("androidx.compose.material3:material3:1.4.0")
 
 }
