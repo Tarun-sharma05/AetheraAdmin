@@ -96,5 +96,7 @@ dependencies {
     // Required for rememberViewModelStoreNavEntryDecorator (ViewModel scoping per nav entry)
     implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.9.0")
     implementation("androidx.compose.material3:material3:1.4.0")
+    // Google Fonts (Manrope)
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.8")
 
 }
