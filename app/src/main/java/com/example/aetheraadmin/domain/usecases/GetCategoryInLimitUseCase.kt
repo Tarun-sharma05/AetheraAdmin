@@ -1,6 +1,2 @@
 package com.example.aetheraadmin.domain.usecases
-
-import javax.inject.Inject
-
-class GetCategoryInLimitUseCase @Inject constructor() {
-}
+// Replaced by direct repository calls in feature ViewModels.
