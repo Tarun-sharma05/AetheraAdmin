@@ -1,14 +1,5 @@
 package com.example.aetheraadmin.domain.models
 
-
-data class ProductsModels (
-  var name: String = "",
-  var description: String = "",
-  var price: Double = 0.0,
-  var category: String = "",
-  var finalPrice: Double = 0.0,
-  var imageUri: String? = null,
-  var date: Long = System.currentTimeMillis(),
-  var availableUnits: Int = 0,
-  var createdBy: String = ""
-)
+// Old ProductsModels class retained as a typealias for zero-risk migration.
+// New code should use Product.kt directly.
+typealias ProductsModels = Product
