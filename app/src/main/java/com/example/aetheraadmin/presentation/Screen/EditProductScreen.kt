@@ -15,20 +15,29 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.aetheraadmin.presentation.AppViewModel
+import com.example.aetheraadmin.presentation.product.EditProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditProductScreen(
-    viewModel: AppViewModel = hiltViewModel(),
+    viewModel: EditProductViewModel = hiltViewModel(),
     innerPadding: PaddingValues = PaddingValues(),
     productId: String = "",
     onBack: () -> Unit = {}
 ) {
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(productId) {
+        if (productId.isNotBlank()) viewModel.loadProduct(productId)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -42,9 +51,7 @@ fun EditProductScreen(
         }
     ) { scaffoldPadding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(scaffoldPadding),
+            modifier = Modifier.fillMaxSize().padding(scaffoldPadding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -58,6 +65,13 @@ fun EditProductScreen(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            if (state.product != null) {
+                Text(
+                    text = "Loaded: ${state.product!!.name}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
             Text(
                 text = "Full edit form — coming soon",
                 style = MaterialTheme.typography.bodySmall,

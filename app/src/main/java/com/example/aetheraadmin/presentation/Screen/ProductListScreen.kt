@@ -26,7 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,20 +34,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.aetheraadmin.domain.models.ProductsModels
-import com.example.aetheraadmin.presentation.AppViewModel
+import com.example.aetheraadmin.domain.models.Product
+import com.example.aetheraadmin.presentation.product.ProductViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductListScreen(
-    viewModel: AppViewModel = hiltViewModel(),
+    viewModel: ProductViewModel = hiltViewModel(),
     innerPadding: PaddingValues = PaddingValues(),
     onAddProduct: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    val state by viewModel.getProductState.collectAsState()
-
-    LaunchedEffect(Unit) { viewModel.getProducts() }
+    val state by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -77,7 +74,7 @@ fun ProductListScreen(
                 ) { CircularProgressIndicator() }
             }
 
-            state.success.isEmpty() -> {
+            state.products.isEmpty() -> {
                 Column(
                     modifier = Modifier.fillMaxSize().padding(scaffoldPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +99,7 @@ fun ProductListScreen(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(state.success) { product ->
+                    items(state.products) { product ->
                         ProductListItem(product = product)
                     }
                 }
@@ -112,18 +109,14 @@ fun ProductListScreen(
 }
 
 @Composable
-private fun ProductListItem(product: ProductsModels) {
+private fun ProductListItem(product: Product) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -136,7 +129,7 @@ private fun ProductListItem(product: ProductsModels) {
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = product.category,
+                    text = product.categoryName,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -149,7 +142,7 @@ private fun ProductListItem(product: ProductsModels) {
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "${product.availableUnits} units",
+                    text = "${product.stockQuantity} units",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

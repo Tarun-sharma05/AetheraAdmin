@@ -26,7 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -35,20 +34,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.aetheraadmin.domain.models.category
-import com.example.aetheraadmin.presentation.AppViewModel
+import com.example.aetheraadmin.domain.models.Category
+import com.example.aetheraadmin.presentation.category.CategoryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryListScreen(
-    viewModel: AppViewModel = hiltViewModel(),
+    viewModel: CategoryViewModel = hiltViewModel(),
     innerPadding: PaddingValues = PaddingValues(),
     onAddCategory: () -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    val state by viewModel.getCategoryState.collectAsState()
-
-    LaunchedEffect(Unit) { viewModel.getCategory() }
+    val state by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -77,7 +74,7 @@ fun CategoryListScreen(
                 ) { CircularProgressIndicator() }
             }
 
-            state.success.isEmpty() -> {
+            state.categories.isEmpty() -> {
                 Column(
                     modifier = Modifier.fillMaxSize().padding(scaffoldPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +99,7 @@ fun CategoryListScreen(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(state.success) { cat ->
+                    items(state.categories) { cat ->
                         CategoryListItem(cat = cat)
                     }
                 }
@@ -112,18 +109,14 @@ fun CategoryListScreen(
 }
 
 @Composable
-private fun CategoryListItem(cat: category) {
+private fun CategoryListItem(cat: Category) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
