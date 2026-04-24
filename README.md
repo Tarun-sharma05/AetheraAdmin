@@ -16,10 +16,9 @@
 
 ## 📱 Preview
 
-[![▶ Watch Dashboard Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Dashboard%20Preview-2D4ADD?style=for-the-badge&logo=android&logoColor=white)](https://drive.google.com/file/d/1dmjnyvwS5Dttu32xAkzY4HXoh2S4YPYD/view?usp=sharing)
+https://github.com/user-attachments/assets/78be5298-382c-436e-86db-6f477769e784
 
 > *Dashboard overview — KPI cards, weekly sales chart, order status donut, business activity feed.*
-> *Click the button above to watch the full demo on Google Drive.*
 
 ---
 
