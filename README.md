@@ -16,7 +16,7 @@
 
 ## 📱 Preview
 
-https://github.com/user-attachments/assets/VIDEO_TOKEN_PLACEHOLDER
+https://github.com/user-attachments/assets/https://drive.google.com/file/d/1dmjnyvwS5Dttu32xAkzY4HXoh2S4YPYD/view?usp=sharing
 
 > *Dashboard overview — KPI cards, weekly sales chart, order status donut, business activity feed.*
 > *(Replace the link above after uploading via GitHub's video attach feature)*
